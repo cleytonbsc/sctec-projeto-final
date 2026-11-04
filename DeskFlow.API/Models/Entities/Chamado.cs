@@ -21,9 +21,16 @@ namespace DeskFlow.API.Models.Entities
 
         public string CategoriaId { get; set; }
 
-        public virtual Categoria Categoria { get; set; } = null!;
+        public virtual Categoria? Categoria { get; set; }
 
         public virtual ICollection<Interacao> Interacoes { get; set; } = new List<Interacao>();
+
+        public void Update(Chamado chamado)
+        {
+            Status = chamado.Status;
+            DataFechamento = chamado.DataFechamento;
+            Solucao = chamado.Solucao;
+        }
 
     }
 }

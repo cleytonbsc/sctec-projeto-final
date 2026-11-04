@@ -7,7 +7,7 @@ namespace DeskFlow.API.Repositories
 {
     public class CategoriasRepository : ICategoriasRepository
     {
-        private readonly AppDbContext _context;
+        private AppDbContext _context;
 
         public CategoriasRepository(AppDbContext context)
         {
