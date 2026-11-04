@@ -1,0 +1,29 @@
+using DeskFlow.API.Models.Enums;
+
+namespace DeskFlow.API.Models.Entities
+{
+    public class Chamado
+    {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Titulo { get; set; } = string.Empty;
+        public string Descricao { get; set; } = string.Empty;
+
+        public string Prioridade { get; set; } = PrioridadeChamado.Baixa.ToString();
+        public string Status { get; set; } = StatusChamado.Aberto.ToString();
+
+        public string SolicitanteNome { get; set; } = string.Empty;
+
+        public DateTime DataAbertura { get; set; } = DateTime.UtcNow;
+
+        public DateTime? DataFechamento { get; set; }
+
+        public string? Solucao { get; set; }
+
+        public string CategoriaId { get; set; }
+
+        public virtual Categoria Categoria { get; set; } = null!;
+
+        public virtual ICollection<Interacao> Interacoes { get; set; } = new List<Interacao>();
+
+    }
+}
