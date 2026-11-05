@@ -16,7 +16,11 @@ namespace DeskFlow.API.Services
             _chamadosRepository = chamadosRepository;
         }
 
-        public async Task<List<Chamado>> ObterTodos() => await _chamadosRepository.ObterTodos();
+        public async Task<List<ChamadoDetalhesDto>> ObterTodos()
+        {
+            List<Chamado> chamados = await _chamadosRepository.ObterTodos();
+            return chamados.Select(c => new ChamadoDetalhesDto(c)).ToList();
+        }
 
         public async Task<ChamadoDetalhesDto> ObterPorId(string id)
         {
@@ -26,9 +30,10 @@ namespace DeskFlow.API.Services
             return new ChamadoDetalhesDto(chamado);
         }
 
-        public async Task Inserir(Chamado chamado)
+        public async Task Inserir(ChamadoCriarDto chamado)
         {
-            await _chamadosRepository.Inserir(chamado);
+            var chamadoEntity = new Chamado(chamado);
+            await _chamadosRepository.Inserir(chamadoEntity);
         }
 
         public async Task Iniciar(string id)
@@ -43,16 +48,18 @@ namespace DeskFlow.API.Services
             await _chamadosRepository.Iniciar(chamado);
         }
 
-        public async Task Encerrar(string id)
+        public async Task Encerrar(string id, ChamadoEncerrarDto chamado)
         {
-            Chamado chamado = await _chamadosRepository.ObterPorId(id);
+            Chamado chamadoEncerrado = await _chamadosRepository.ObterPorId(id);
 
-            if (chamado == null)
+            if (chamadoEncerrado == null)
             {
                throw new NotFoundException("Chamado não encontrado.");
             }
-            chamado.Status = StatusChamado.Fechado.ToString();
-            await _chamadosRepository.Encerrar(chamado);
+            chamadoEncerrado.Status = StatusChamado.Fechado.ToString();
+            chamadoEncerrado.Solucao = chamado.Solucao;
+            chamadoEncerrado.DataFechamento = DateTime.Now;
+            await _chamadosRepository.Encerrar(chamadoEncerrado);
         }
     }
 }

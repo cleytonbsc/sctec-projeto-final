@@ -10,8 +10,6 @@ namespace DeskFlow.API.Controllers
     public class ChamadosController : ControllerBase
     {
         private IChamadosService _chamadosService;
-        
-    
 
         public ChamadosController(IChamadosService chamadosService)
         {
@@ -33,12 +31,25 @@ namespace DeskFlow.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Inserir([FromBody] Chamado chamado)
+        public async Task<IActionResult> Inserir([FromBody] ChamadoCriarDto chamado)
         {
             await _chamadosService.Inserir(chamado);
-            return Created("/chamados", new ChamadoDetalhesDto(chamado));
+            return Created("/chamados", chamado);
         }
 
+        [HttpPost("{id}/iniciar")]
+        public async Task<IActionResult> Iniciar([FromRoute] string id)
+        {
+            await _chamadosService.Iniciar(id);
+            return Ok();
+        }
+
+        [HttpPost("{id}/encerrar")]
+        public async Task<IActionResult> Encerrar([FromRoute] string id, [FromBody] ChamadoEncerrarDto chamado)
+        {
+            await _chamadosService.Encerrar(id, chamado);
+            return Ok();
+        }
     }
 
 }

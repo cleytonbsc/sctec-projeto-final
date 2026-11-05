@@ -35,3 +35,9 @@ public class ChamadoDetalhesDto
     public string CategoriaId { get; set; } = string.Empty;
     public string CategoriaNome { get; set; } = string.Empty;
 }
+
+public class ChamadoAtualizarDto 
+{
+    public string Status { get; set; } = string.Empty;
+    public string? Solucao { get; set; }
+}

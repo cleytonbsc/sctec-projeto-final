@@ -5,10 +5,10 @@ namespace DeskFlow.API.Services.Interfaces
 {
     public interface IChamadosService
     {
-        Task<List<Chamado>> ObterTodos();
+        Task<List<ChamadoDetalhesDto>> ObterTodos();
         Task<ChamadoDetalhesDto> ObterPorId(string id);
-        Task Inserir(Chamado chamado);
+        Task Inserir(ChamadoCriarDto chamado);
         Task Iniciar(string id);
-        Task Encerrar(string id);
+        Task Encerrar(string id, ChamadoEncerrarDto chamado);
     }
 }

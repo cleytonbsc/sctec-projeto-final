@@ -30,6 +30,7 @@ namespace DeskFlow.API.Repositories
         {
             await _context.Chamados.AddAsync(chamado);
             await _context.SaveChangesAsync();
+            await _context.Entry(chamado).Reference(c => c.Categoria).LoadAsync();
         }
 
         public async Task Iniciar(Chamado chamado)

@@ -1,9 +1,21 @@
+using DeskFlow.API.Models.Dtos; // Adicionado para enxergar o DTO
 using DeskFlow.API.Models.Enums;
 
 namespace DeskFlow.API.Models.Entities
 {
     public class Chamado
     {
+        public Chamado() { }
+
+        public Chamado(ChamadoCriarDto dto)
+        {
+            Titulo = dto.Titulo;
+            Descricao = dto.Descricao;
+            Prioridade = dto.Prioridade;
+            SolicitanteNome = dto.SolicitanteNome;
+            CategoriaId = dto.CategoriaId;
+        }
+
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Titulo { get; set; } = string.Empty;
         public string Descricao { get; set; } = string.Empty;
@@ -31,6 +43,5 @@ namespace DeskFlow.API.Models.Entities
             DataFechamento = chamado.DataFechamento;
             Solucao = chamado.Solucao;
         }
-
     }
 }
