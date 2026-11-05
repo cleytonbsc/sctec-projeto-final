@@ -26,7 +26,8 @@ namespace DeskFlow.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> ObterPorId([FromRoute] string id)
         {
-            var chamado = await _chamadosService.ObterPorId(id);
+            ChamadoDetalhesDto? chamado = await _chamadosService.ObterPorId(id);
+            if (chamado == null) return NotFound(new { mensagem = $"Não encontramos o chamado com o ID {id}." });
             return Ok(chamado);
         }
 
@@ -40,16 +41,22 @@ namespace DeskFlow.API.Controllers
         [HttpPost("{id}/iniciar")]
         public async Task<IActionResult> Iniciar([FromRoute] string id)
         {
+            ChamadoDetalhesDto? chamado = await _chamadosService.ObterPorId(id);
+            if (chamado == null) return NotFound(new { mensagem = $"Não encontramos o chamado com o ID {id}." });
             await _chamadosService.Iniciar(id);
-            return Ok();
+            return Ok(new { mensagem = "Chamado iniciado com sucesso!", chamado.Id });
         }
 
         [HttpPost("{id}/encerrar")]
         public async Task<IActionResult> Encerrar([FromRoute] string id, [FromBody] ChamadoEncerrarDto chamado)
         {
+            ChamadoDetalhesDto? chamadoDetalhes = await _chamadosService.ObterPorId(id);
+            if (chamadoDetalhes == null) return NotFound(new { mensagem = $"Não encontramos o chamado com o ID {id}." });
             await _chamadosService.Encerrar(id, chamado);
-            return Ok();
+            return Ok(new { mensagem = "Chamado encerrado com sucesso!", chamadoDetalhes.Id });
         }
+
+
     }
 
 }

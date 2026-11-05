@@ -1,4 +1,3 @@
-using DbApi.Exceptions;
 using DeskFlow.API.Models.Dtos;
 using DeskFlow.API.Models.Entities;
 using DeskFlow.API.Models.Enums;
@@ -24,42 +23,31 @@ namespace DeskFlow.API.Services
 
         public async Task<ChamadoDetalhesDto> ObterPorId(string id)
         {
-            var chamado = await _chamadosRepository.ObterPorId(id);
+            Chamado chamado = await _chamadosRepository.ObterPorId(id);
             if (chamado == null)
             {
-                throw new NotFoundException("Chamado não encontrado.");
+                return null; 
             }
-
             return new ChamadoDetalhesDto(chamado);
         }
 
         public async Task<ChamadoDetalhesDto> Inserir(ChamadoCriarDto chamado)
         {
-            var chamadoEntity = new Chamado(chamado);
+            Chamado chamadoEntity = new Chamado(chamado);
             await _chamadosRepository.Inserir(chamadoEntity);
             return new ChamadoDetalhesDto(chamadoEntity);
         }
 
         public async Task Iniciar(string id)
         {
-            Chamado? chamado = await _chamadosRepository.ObterPorId(id);
-
-            if (chamado == null)
-            {
-               throw new NotFoundException("Chamado não encontrado.");
-            }
+            Chamado chamado = await _chamadosRepository.ObterPorId(id);
             chamado.Status = StatusChamado.EmAndamento.ToString();
             await _chamadosRepository.Iniciar(chamado);
         }
 
         public async Task Encerrar(string id, ChamadoEncerrarDto chamado)
         {
-            Chamado? chamadoEncerrado = await _chamadosRepository.ObterPorId(id);
-
-            if (chamadoEncerrado == null)
-            {
-               throw new NotFoundException("Chamado não encontrado.");
-            }
+            Chamado chamadoEncerrado = await _chamadosRepository.ObterPorId(id);
             chamadoEncerrado.Status = StatusChamado.Fechado.ToString();
             chamadoEncerrado.Solucao = chamado.Solucao;
             chamadoEncerrado.DataFechamento = DateTime.Now;
