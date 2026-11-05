@@ -33,8 +33,8 @@ namespace DeskFlow.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Inserir([FromBody] ChamadoCriarDto chamado)
         {
-            await _chamadosService.Inserir(chamado);
-            return Created("/chamados", chamado);
+            var chamadoDetalhes = await _chamadosService.Inserir(chamado);
+            return Created("/chamados", chamadoDetalhes);
         }
 
         [HttpPost("{id}/iniciar")]

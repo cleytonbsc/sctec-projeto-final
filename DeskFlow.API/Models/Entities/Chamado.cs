@@ -31,7 +31,7 @@ namespace DeskFlow.API.Models.Entities
 
         public string? Solucao { get; set; }
 
-        public string CategoriaId { get; set; }
+        public string CategoriaId { get; set; } = string.Empty;
 
         public virtual Categoria? Categoria { get; set; }
 

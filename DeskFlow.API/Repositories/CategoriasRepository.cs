@@ -1,3 +1,4 @@
+using DbApi.Exceptions;
 using DeskFlow.API.Data;
 using DeskFlow.API.Models.Entities;
 using DeskFlow.API.Repositories.Interfaces;
@@ -18,8 +19,7 @@ namespace DeskFlow.API.Repositories
         {
             return await _context.Categorias.ToListAsync();
         }
-
-        public async Task<Categoria> ObterPorId(string id)
+        public async Task<Categoria?> ObterPorId(string id)
         {
             return await _context.Categorias.FindAsync(id);
         }

@@ -25,20 +25,24 @@ namespace DeskFlow.API.Services
         public async Task<ChamadoDetalhesDto> ObterPorId(string id)
         {
             var chamado = await _chamadosRepository.ObterPorId(id);
-            if (chamado == null) return null;
+            if (chamado == null)
+            {
+                throw new NotFoundException("Chamado não encontrado.");
+            }
 
             return new ChamadoDetalhesDto(chamado);
         }
 
-        public async Task Inserir(ChamadoCriarDto chamado)
+        public async Task<ChamadoDetalhesDto> Inserir(ChamadoCriarDto chamado)
         {
             var chamadoEntity = new Chamado(chamado);
             await _chamadosRepository.Inserir(chamadoEntity);
+            return new ChamadoDetalhesDto(chamadoEntity);
         }
 
         public async Task Iniciar(string id)
         {
-            Chamado chamado = await _chamadosRepository.ObterPorId(id);
+            Chamado? chamado = await _chamadosRepository.ObterPorId(id);
 
             if (chamado == null)
             {
@@ -50,7 +54,7 @@ namespace DeskFlow.API.Services
 
         public async Task Encerrar(string id, ChamadoEncerrarDto chamado)
         {
-            Chamado chamadoEncerrado = await _chamadosRepository.ObterPorId(id);
+            Chamado? chamadoEncerrado = await _chamadosRepository.ObterPorId(id);
 
             if (chamadoEncerrado == null)
             {

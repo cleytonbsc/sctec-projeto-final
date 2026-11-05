@@ -14,7 +14,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 
 
-string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+string connection = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("A string de conexão 'DefaultConnection' não foi encontrada.");
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection));
 

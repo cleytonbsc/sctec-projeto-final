@@ -7,7 +7,7 @@ namespace DeskFlow.API.Services.Interfaces
     {
         Task<List<ChamadoDetalhesDto>> ObterTodos();
         Task<ChamadoDetalhesDto> ObterPorId(string id);
-        Task Inserir(ChamadoCriarDto chamado);
+        Task<ChamadoDetalhesDto> Inserir(ChamadoCriarDto chamado);
         Task Iniciar(string id);
         Task Encerrar(string id, ChamadoEncerrarDto chamado);
     }

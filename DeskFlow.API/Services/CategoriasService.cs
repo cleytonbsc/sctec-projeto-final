@@ -16,7 +16,14 @@ namespace DeskFlow.API.Services
         public async Task<List<Categoria>> ObterTodos() => await _categoriasRepository.ObterTodos();
         public async Task<Categoria> ObterPorId(string id)
         {
-            return await _categoriasRepository.ObterPorId(id);
+            Categoria? categoria = await _categoriasRepository.ObterPorId(id);
+            
+            if (categoria == null)
+            {
+                throw new NotFoundException("Categoria não encontrada.");
+
+            }
+            return categoria;
         }
         public async Task Inserir(Categoria categoria)
         {
@@ -24,7 +31,7 @@ namespace DeskFlow.API.Services
         }
         public async Task Deletar(string id)
         {
-            Categoria categoria = await _categoriasRepository.ObterPorId(id);
+            Categoria? categoria = await _categoriasRepository.ObterPorId(id);
 
             if (categoria == null)
             {
@@ -42,7 +49,7 @@ namespace DeskFlow.API.Services
         }
         public async Task Atualizar(Categoria categoria, string id)
         {
-            Categoria categoriaExistente = await _categoriasRepository.ObterPorId(id);
+            Categoria? categoriaExistente = await _categoriasRepository.ObterPorId(id);
 
             if (categoriaExistente == null)
             {

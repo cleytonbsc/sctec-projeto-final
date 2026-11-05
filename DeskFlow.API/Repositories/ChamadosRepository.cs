@@ -19,7 +19,7 @@ namespace DeskFlow.API.Repositories
             return await _context.Chamados.Include(c => c.Categoria).ToListAsync();
         }
 
-        public async Task<Chamado> ObterPorId(string id)
+        public async Task<Chamado?> ObterPorId(string id)
         {
             return await _context.Chamados
             .Include(c => c.Categoria)
