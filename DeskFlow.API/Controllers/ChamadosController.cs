@@ -19,13 +19,6 @@ namespace DeskFlow.API.Controllers
             _InteracoesService = InteracoesService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> ObterTodos()
-        {
-            var chamados = await _chamadosService.ObterTodos();
-            return Ok(chamados);
-        }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> ObterPorId([FromRoute] string id)
         {
@@ -83,6 +76,14 @@ namespace DeskFlow.API.Controllers
                 return BadRequest(new { mensagem = ex.Message });
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ObterTodos([FromQuery] string? status, [FromQuery] string? categoria, [FromQuery] string? categoriaID, [FromQuery] string? prioridade, [FromQuery] DateTime? dataInicio, [FromQuery] DateTime? dataFim)
+        {
+            var chamados = await _chamadosService.ObterTodos(status, categoria, categoriaID, prioridade, dataInicio, dataFim);
+            return Ok(chamados);
+        }
+
     }
 
 }

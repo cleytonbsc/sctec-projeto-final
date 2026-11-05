@@ -14,13 +14,6 @@ namespace DeskFlow.API.Services
         {
             _chamadosRepository = chamadosRepository;
         }
-
-        public async Task<List<ChamadoDetalhesDto>> ObterTodos()
-        {
-            List<Chamado> chamados = await _chamadosRepository.ObterTodos();
-            return chamados.Select(c => new ChamadoDetalhesDto(c)).ToList();
-        }
-
         public async Task<ChamadoDetalhesDto> ObterPorId(string id)
         {
             Chamado chamado = await _chamadosRepository.ObterPorId(id);
@@ -52,6 +45,12 @@ namespace DeskFlow.API.Services
             chamadoEncerrado.Solucao = chamado.Solucao;
             chamadoEncerrado.DataFechamento = DateTime.Now;
             await _chamadosRepository.Encerrar(chamadoEncerrado);
+        }
+
+        public async Task<List<ChamadoDetalhesDto>> ObterTodos(string? status, string? categoria,string? categoriaID, string? prioridade, DateTime? dataInicio, DateTime? dataFim)
+        {
+            List<Chamado> chamados = await _chamadosRepository.ObterTodos(status, categoria, categoriaID, prioridade, dataInicio, dataFim);
+            return chamados.Select(c => new ChamadoDetalhesDto(c)).ToList();
         }
     }
 }
