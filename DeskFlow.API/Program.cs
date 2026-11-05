@@ -27,6 +27,9 @@ builder.Services.AddScoped<ICategoriasService, CategoriasServices>();
 builder.Services.AddScoped<IChamadosRepository, ChamadosRepository>();
 builder.Services.AddScoped<IChamadosService, ChamadosService>();
 
+builder.Services.AddScoped<IInteracoesRepository, InteracoesRepository>();
+builder.Services.AddScoped<IInteracoesService, InteracoesService>();
+
 var app = builder.Build();
 
 app.UseMiddleware<ErrorMiddleware>();

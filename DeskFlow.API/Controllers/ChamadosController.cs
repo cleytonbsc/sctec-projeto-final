@@ -11,9 +11,12 @@ namespace DeskFlow.API.Controllers
     {
         private IChamadosService _chamadosService;
 
-        public ChamadosController(IChamadosService chamadosService)
+        private IInteracoesService _InteracoesService;
+
+        public ChamadosController(IChamadosService chamadosService, IInteracoesService InteracoesService)
         {
             _chamadosService = chamadosService;
+            _InteracoesService = InteracoesService;
         }
 
         [HttpGet]
@@ -56,7 +59,19 @@ namespace DeskFlow.API.Controllers
             return Ok(new { mensagem = "Chamado encerrado com sucesso!", chamadoDetalhes.Id });
         }
 
+        [HttpGet("{id}/interacoes")]
+        public async Task<IActionResult> ObterInteracoes([FromRoute] string id)
+        {
+            var interacoes = await _InteracoesService.ObterPorChamadoId(id);
+            return Ok(interacoes);
+        }
 
+        [HttpPost("{id}/interacoes")]
+        public async Task<IActionResult> InserirInteracao([FromRoute] string id, [FromBody] InteracaoCriarDto interacao)
+        {
+            await _InteracoesService.Inserir(id, interacao);
+            return Created($"/chamados/{id}/interacoes", interacao);
+        }
     }
 
 }

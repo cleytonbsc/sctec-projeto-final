@@ -19,6 +19,18 @@ public class ChamadoDetalhesDto
         
         // Pega o nome de forma segura se a navegação estiver carregada
         CategoriaNome = chamado.Categoria?.Nome ?? "Sem Categoria";
+
+        if (chamado.Interacoes != null)
+        {
+            Interacoes = chamado.Interacoes.Select(i => new InteracaoDetalhesDto
+            {
+                Id = i.Id,
+                Autor = i.Autor,
+                Mensagem = i.Mensagem,
+                DataRegistro = i.DataRegistro
+
+            }).ToList();
+        }
     }
 
     public ChamadoDetalhesDto() { }
@@ -34,10 +46,6 @@ public class ChamadoDetalhesDto
     public string? Solucao { get; set; }
     public string CategoriaId { get; set; } = string.Empty;
     public string CategoriaNome { get; set; } = string.Empty;
-}
 
-public class ChamadoAtualizarDto 
-{
-    public string Status { get; set; } = string.Empty;
-    public string? Solucao { get; set; }
+    public List<InteracaoDetalhesDto> Interacoes { get; set; } = new List<InteracaoDetalhesDto>();
 }

@@ -1,5 +1,4 @@
 using DeskFlow.API.Models.Dtos;
-using DeskFlow.API.Models.Entities;
 
 namespace DeskFlow.API.Services.Interfaces
 {

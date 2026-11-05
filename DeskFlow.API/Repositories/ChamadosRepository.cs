@@ -16,13 +16,17 @@ namespace DeskFlow.API.Repositories
 
         public async Task<List<Chamado>> ObterTodos()
         {
-            return await _context.Chamados.Include(c => c.Categoria).ToListAsync();
+            return await _context.Chamados
+            .Include(c => c.Categoria)
+            .Include(c => c.Interacoes)
+            .ToListAsync();
         }
 
         public async Task<Chamado?> ObterPorId(string id)
         {
             return await _context.Chamados
             .Include(c => c.Categoria)
+            .Include(c => c.Interacoes)
             .FirstOrDefaultAsync(c => c.Id == id);
         }
 
