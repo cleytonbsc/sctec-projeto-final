@@ -69,8 +69,19 @@ namespace DeskFlow.API.Controllers
         [HttpPost("{id}/interacoes")]
         public async Task<IActionResult> InserirInteracao([FromRoute] string id, [FromBody] InteracaoCriarDto interacao)
         {
-            await _InteracoesService.Inserir(id, interacao);
-            return Created($"/chamados/{id}/interacoes", interacao);
+            try
+            {
+                await _InteracoesService.Inserir(id, interacao);
+                return Created($"/api/chamados/{id}/interacoes", new { mensagem = "Interação adicionada com sucesso!" });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { mensagem = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { mensagem = ex.Message });
+            }
         }
     }
 
