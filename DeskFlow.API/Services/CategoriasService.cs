@@ -8,7 +8,7 @@ namespace DeskFlow.API.Services
 {
     public class CategoriasServices : ICategoriasService
     {
-        private ICategoriasRepository _categoriasRepository;
+        private readonly ICategoriasRepository _categoriasRepository;
 
         public CategoriasServices(ICategoriasRepository categoriasRepository)
         {
@@ -17,17 +17,13 @@ namespace DeskFlow.API.Services
         public async Task<List<CategoriasDetalhesDto>> ObterTodos()
         {
             List<Categoria> categorias = await _categoriasRepository.ObterTodos();
-            if (categorias != null)
+
+            return categorias.Select(c => new CategoriasDetalhesDto
             {
-                List<CategoriasDetalhesDto> categoriasDetalhes = categorias.Select(c => new CategoriasDetalhesDto
-                {
-                    Id = c.Id,
-                    Nome = c.Nome
-                }).ToList();
-                return categoriasDetalhes;
-            }
-            return null;
-        } 
+                Id = c.Id,
+                Nome = c.Nome
+            }).ToList();
+        }
         public async Task<CategoriasDetalhesDto> ObterPorId(string id)
         {
             Categoria? categoria = await _categoriasRepository.ObterPorId(id);
