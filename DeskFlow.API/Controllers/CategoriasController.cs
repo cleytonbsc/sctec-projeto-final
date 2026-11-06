@@ -26,14 +26,14 @@ namespace DeskFlow.API.Controllers
         [HttpGet]
         public async Task<IActionResult> ObterTodos()
         {
-            List<Categoria> categorias = await _categoriasService.ObterTodos();
+            List<CategoriasDetalhesDto> categorias = await _categoriasService.ObterTodos();
             return Ok(categorias);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> ObterPorId([FromRoute]string id)
         {
-            Categoria categoria = await _categoriasService.ObterPorId(id);
+            CategoriasDetalhesDto categoria = await _categoriasService.ObterPorId(id);
             return Ok(categoria);
         }
 

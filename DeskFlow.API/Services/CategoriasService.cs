@@ -14,8 +14,21 @@ namespace DeskFlow.API.Services
         {
             _categoriasRepository = categoriasRepository;
         }
-        public async Task<List<Categoria>> ObterTodos() => await _categoriasRepository.ObterTodos();
-        public async Task<Categoria> ObterPorId(string id)
+        public async Task<List<CategoriasDetalhesDto>> ObterTodos()
+        {
+            List<Categoria> categorias = await _categoriasRepository.ObterTodos();
+            if (categorias != null)
+            {
+                List<CategoriasDetalhesDto> categoriasDetalhes = categorias.Select(c => new CategoriasDetalhesDto
+                {
+                    Id = c.Id,
+                    Nome = c.Nome
+                }).ToList();
+                return categoriasDetalhes;
+            }
+            return null;
+        } 
+        public async Task<CategoriasDetalhesDto> ObterPorId(string id)
         {
             Categoria? categoria = await _categoriasRepository.ObterPorId(id);
             
@@ -24,7 +37,13 @@ namespace DeskFlow.API.Services
                 throw new NotFoundException("Categoria não encontrada.");
 
             }
-            return categoria;
+
+            CategoriasDetalhesDto categoriaDetalhes = new CategoriasDetalhesDto
+            {
+                Id = categoria.Id,
+                Nome = categoria.Nome
+            };
+            return categoriaDetalhes;
         }
         public async Task Inserir(CategoriasDto categoria)
         {
@@ -44,7 +63,7 @@ namespace DeskFlow.API.Services
 
             }
 
-            if (categoria.Chamados.Any())
+            if (categoria.Chamados != null && categoria.Chamados.Any())
             {
                 throw new NotFoundException("Não é possível deletar uma categoria que possui chamados associados.");
             }

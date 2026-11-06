@@ -21,7 +21,9 @@ namespace DeskFlow.API.Repositories
         }
         public async Task<Categoria?> ObterPorId(string id)
         {
-            return await _context.Categorias.FindAsync(id);
+            return await _context.Categorias
+            .Include(c => c.Chamados)
+            .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task Inserir(Categoria categoria)
