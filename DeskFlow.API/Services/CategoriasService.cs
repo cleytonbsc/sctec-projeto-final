@@ -1,4 +1,5 @@
 using DbApi.Exceptions;
+using DeskFlow.API.Models.Dtos;
 using DeskFlow.API.Models.Entities;
 using DeskFlow.API.Repositories.Interfaces;
 using DeskFlow.API.Services.Interfaces;
@@ -25,9 +26,13 @@ namespace DeskFlow.API.Services
             }
             return categoria;
         }
-        public async Task Inserir(Categoria categoria)
+        public async Task Inserir(CategoriasDto categoria)
         {
-            await _categoriasRepository.Inserir(categoria);
+            Categoria categoriaEntity = new Categoria
+            {
+                Nome = categoria.Nome
+            };
+            await _categoriasRepository.Inserir(categoriaEntity);
         }
         public async Task Deletar(string id)
         {
@@ -47,7 +52,7 @@ namespace DeskFlow.API.Services
             await _categoriasRepository.Deletar(categoria);
 
         }
-        public async Task Atualizar(Categoria categoria, string id)
+        public async Task Atualizar(CategoriasDto categoria, string id)
         {
             Categoria? categoriaExistente = await _categoriasRepository.ObterPorId(id);
 
@@ -56,7 +61,11 @@ namespace DeskFlow.API.Services
                 throw new NotFoundException("Categoria não encontrada.");
             }
 
-            categoriaExistente.Update(categoria);
+            Categoria categoriaEntity = new Categoria
+            {
+                Nome = categoria.Nome
+            };
+            categoriaExistente.Update(categoriaEntity);
             await _categoriasRepository.Atualizar(categoriaExistente);
         }
     }

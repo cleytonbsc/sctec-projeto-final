@@ -1,3 +1,4 @@
+using DeskFlow.API.Models.Dtos;
 using DeskFlow.API.Models.Entities;
 
 namespace DeskFlow.API.Services.Interfaces
@@ -6,8 +7,8 @@ namespace DeskFlow.API.Services.Interfaces
     {
         Task<List<Categoria>> ObterTodos();
         Task<Categoria> ObterPorId(string id);
-        Task Inserir(Categoria categoria);
+        Task Inserir(CategoriasDto categoria);
         Task Deletar(string id);
-        Task Atualizar(Categoria categoria, string id);
+        Task Atualizar(CategoriasDto categoria, string id);
     }
 }

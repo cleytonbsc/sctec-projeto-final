@@ -1,3 +1,4 @@
+using DeskFlow.API.Models.Dtos;
 using DeskFlow.API.Models.Entities;
 using DeskFlow.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ namespace DeskFlow.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Inserir([FromBody] Categoria categoria)
+        public async Task<IActionResult> Inserir([FromBody] CategoriasDto categoria)
         {
             await _categoriasService.Inserir(categoria);
             return Created("/categorias", categoria);
@@ -44,7 +45,7 @@ namespace DeskFlow.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Atualizar([FromBody] Categoria categoria, [FromRoute]string id)
+        public async Task<IActionResult> Atualizar([FromBody] CategoriasDto categoria, [FromRoute]string id)
         {
             await _categoriasService.Atualizar(categoria, id);
             return Ok();
