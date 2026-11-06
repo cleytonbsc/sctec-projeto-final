@@ -24,7 +24,7 @@ namespace DeskFlow.API.Services
 
         public async Task Inserir(String id, InteracaoCriarDto interacao)
         {
-            Chamado chamado = await _ChamadosRepository.ObterPorId(id);
+            Chamado? chamado = await _ChamadosRepository.ObterPorId(id);
             if (chamado == null) 
             {
                 throw new KeyNotFoundException($"O chamado com o ID {id} não existe.");

@@ -40,7 +40,7 @@ namespace DeskFlow.API.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Chamado>> ObterTodos(string? status, string? categoria,string? categoriaID, string prioridade, DateTime? dataInicio, DateTime? dataFim)
+        public async Task<List<Chamado>> ObterTodos(string? status, string? categoria,string? categoriaID, string? prioridade, DateTime? dataInicio, DateTime? dataFim)
         {
             var query = _context.Chamados
                 .Include(c => c.Categoria)
