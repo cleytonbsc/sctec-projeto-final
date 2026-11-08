@@ -50,10 +50,11 @@ Quando houver alterações nas entidades, crie uma nova migration a partir da pa
 
 ### Registrar um usuário
 Com a API em execução, envie uma requisição `POST` para `/auth/register`:
-
+```
    curl -X POST http://localhost:5051/auth/register ^
      -H "Content-Type: application/json" ^
      -d "{\"email\":\"admin@deskflow.com\",\"password\":\"Admin@123\"}"
+```
 
 Também é possível usar o endpoint **POST /auth/register** no Swagger. A senha deve atender às regras padrão de complexidade do ASP.NET Identity.
 
