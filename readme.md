@@ -17,10 +17,10 @@ A **DeskFlow API** é uma Web API RESTful construída em .NET Core 10 utilizando
 
 ### Passo a Passo
 1. Clone este repositório:
-   git clone https://github.com/seu-usuario/deskflow-api.git
+   git clone https://github.com/cleytonbsc/sctec-projeto-final.git
 
 2. Acesse a pasta do projeto:
-   cd deskflow-api/src/DeskFlow.API
+   cd sctec-projeto-final/DeskFlow.API
 
 3. Configure a Connection String no arquivo `appsettings.json`:
    "ConnectionStrings": {
@@ -34,7 +34,47 @@ A **DeskFlow API** é uma Web API RESTful construída em .NET Core 10 utilizando
    dotnet run
 
 6. Acesse a documentação do Swagger para testar os endpoints:
-   https://localhost:7000/swagger
+   A URL exibida no terminal (por exemplo, `http://localhost:5051/swagger`).
+
+### Criar uma migration
+Quando houver alterações nas entidades, crie uma nova migration a partir da pasta `DeskFlow.API`:
+
+   dotnet ef migrations add NomeDaMigration
+   dotnet ef database update
+
+## 👤 Registrar Usuário e Definir Administrador
+
+### Registrar um usuário
+Com a API em execução, envie uma requisição `POST` para `/auth/register`:
+
+   curl -X POST http://localhost:5051/auth/register ^
+     -H "Content-Type: application/json" ^
+     -d "{\"email\":\"admin@deskflow.com\",\"password\":\"Admin@123\"}"
+
+Também é possível usar o endpoint **POST /auth/register** no Swagger. A senha deve atender às regras padrão de complexidade do ASP.NET Identity.
+
+### Dar o papel `Admin`
+Depois de registrar o usuário, execute o script abaixo no banco configurado em `DefaultConnection`. Ele cria o papel, caso ainda não exista, e associa o usuário pelo e-mail:
+
+   IF NOT EXISTS (SELECT 1 FROM AspNetRoles WHERE NormalizedName = 'ADMIN')
+   BEGIN
+       INSERT INTO AspNetRoles (Id, Name, NormalizedName, ConcurrencyStamp)
+       VALUES (NEWID(), 'Admin', 'ADMIN', NEWID());
+   END;
+
+   INSERT INTO AspNetUserRoles (UserId, RoleId)
+   SELECT u.Id, r.Id
+   FROM AspNetUsers u
+   CROSS JOIN AspNetRoles r
+   WHERE u.NormalizedEmail = 'ADMIN@DESKFLOW.COM'
+     AND r.NormalizedName = 'ADMIN'
+     AND NOT EXISTS (
+         SELECT 1
+         FROM AspNetUserRoles ur
+         WHERE ur.UserId = u.Id AND ur.RoleId = r.Id
+     );
+
+Após essa associação, faça login em `POST /auth/login` e use o `accessToken` retornado no botão **Authorize** do Swagger. Os endpoints administrativos exigem o papel `Admin`.
 
 ## 🧠 Ciclo de Vida do Chamado
 - **Aberto**: Chamado registrado pelo solicitante.
