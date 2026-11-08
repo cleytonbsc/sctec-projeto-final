@@ -1,5 +1,4 @@
 using DeskFlow.API.Models.Dtos;
-using DeskFlow.API.Models.Entities;
 using DeskFlow.API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

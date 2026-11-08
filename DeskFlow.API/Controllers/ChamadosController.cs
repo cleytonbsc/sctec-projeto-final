@@ -1,10 +1,11 @@
 using DeskFlow.API.Models.Dtos;
-using DeskFlow.API.Models.Entities;
 using DeskFlow.API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeskFlow.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/chamados")]
     public class ChamadosController : ControllerBase
@@ -35,6 +36,7 @@ namespace DeskFlow.API.Controllers
         }
 
         [HttpPost("{id}/iniciar")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Iniciar([FromRoute] string id)
         {
             ChamadoDetalhesDto? chamado = await _chamadosService.ObterPorId(id);
@@ -44,6 +46,7 @@ namespace DeskFlow.API.Controllers
         }
 
         [HttpPost("{id}/encerrar")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Encerrar([FromRoute] string id, [FromBody] ChamadoEncerrarDto chamado)
         {
             ChamadoDetalhesDto? chamadoDetalhes = await _chamadosService.ObterPorId(id);
@@ -60,6 +63,7 @@ namespace DeskFlow.API.Controllers
         }
 
         [HttpPost("{id}/interacoes")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> InserirInteracao([FromRoute] string id, [FromBody] InteracaoCriarDto interacao)
         {
             try
