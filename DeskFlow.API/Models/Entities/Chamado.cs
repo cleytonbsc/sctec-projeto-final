@@ -1,4 +1,4 @@
-using DeskFlow.API.Models.Dtos; // Adicionado para enxergar o DTO
+using DeskFlow.API.Models.Dtos;
 using DeskFlow.API.Models.Enums;
 
 namespace DeskFlow.API.Models.Entities

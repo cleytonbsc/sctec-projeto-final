@@ -54,12 +54,12 @@ namespace DeskFlow.API.Repositories
 
             if (!string.IsNullOrEmpty(categoria))
             {
-                query = query.Where(c => c.Categoria.Nome.Contains(categoria));
+                query = query.Where(c => c.Categoria != null && c.Categoria.Nome.Contains(categoria));
             }
             
             if (!string.IsNullOrEmpty(categoriaID))
             {
-                query = query.Where(c => c.Categoria.Id == categoriaID);
+                query = query.Where(c => c.Categoria != null && c.Categoria.Id == categoriaID);
             }
 
             if (!string.IsNullOrEmpty(prioridade))

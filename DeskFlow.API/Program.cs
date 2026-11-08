@@ -18,6 +18,7 @@ builder.Services.AddOpenApi(op =>
 {
     op.AddDocumentTransformer((doc, _, _) =>
     {
+        doc.Components ??= new();
         doc.Components.SecuritySchemes = new Dictionary<string, IOpenApiSecurityScheme>();
         doc.Components.SecuritySchemes["Bearer"] = new OpenApiSecurityScheme
         {

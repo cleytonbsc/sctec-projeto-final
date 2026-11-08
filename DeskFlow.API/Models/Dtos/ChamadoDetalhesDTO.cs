@@ -17,7 +17,6 @@ public class ChamadoDetalhesDto
         Solucao = chamado.Solucao;
         CategoriaId = chamado.CategoriaId;
         
-        // Pega o nome de forma segura se a navegação estiver carregada
         CategoriaNome = chamado.Categoria?.Nome ?? "Sem Categoria";
 
         if (chamado.Interacoes != null)
