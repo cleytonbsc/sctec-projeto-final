@@ -28,19 +28,23 @@ A **DeskFlow API** é uma Web API RESTful construída em .NET Core 10 utilizando
    }
 
 4. Execute as Migrations para criar a estrutura no banco de dados:
+```
    dotnet ef database update
-
+```
 5. Execute a API:
+```
    dotnet run
+```
 
 6. Acesse a documentação do Swagger para testar os endpoints:
    A URL exibida no terminal (por exemplo, `http://localhost:5051/swagger`).
 
 ### Criar uma migration
 Quando houver alterações nas entidades, crie uma nova migration a partir da pasta `DeskFlow.API`:
-
+```
    dotnet ef migrations add NomeDaMigration
    dotnet ef database update
+```
 
 ## 👤 Registrar Usuário e Definir Administrador
 
@@ -55,7 +59,7 @@ Também é possível usar o endpoint **POST /auth/register** no Swagger. A senha
 
 ### Dar o papel `Admin`
 Depois de registrar o usuário, execute o script abaixo no banco configurado em `DefaultConnection`. Ele cria o papel, caso ainda não exista, e associa o usuário pelo e-mail:
-
+```
    IF NOT EXISTS (SELECT 1 FROM AspNetRoles WHERE NormalizedName = 'ADMIN')
    BEGIN
        INSERT INTO AspNetRoles (Id, Name, NormalizedName, ConcurrencyStamp)
@@ -73,7 +77,7 @@ Depois de registrar o usuário, execute o script abaixo no banco configurado em 
          FROM AspNetUserRoles ur
          WHERE ur.UserId = u.Id AND ur.RoleId = r.Id
      );
-
+```
 Após essa associação, faça login em `POST /auth/login` e use o `accessToken` retornado no botão **Authorize** do Swagger. Os endpoints administrativos exigem o papel `Admin`.
 
 ## 🧠 Ciclo de Vida do Chamado
