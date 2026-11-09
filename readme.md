@@ -87,4 +87,4 @@ Após essa associação, faça login em `POST /auth/login` e use o `accessToken`
 - **Middlewares**: Tratamento e padronização de erros globais da API.
 
 ## 🎥 Vídeo de Apresentação
-[Clique aqui para assistir ao vídeo de demonstração do projeto](hhttps://drive.google.com/file/d/1NKrp6CmloPeyaCOerFB29r1H5Y_brmSV/view?usp=sharing)
+[Clique aqui para assistir ao vídeo de demonstração do projeto](https://drive.google.com/file/d/1NKrp6CmloPeyaCOerFB29r1H5Y_brmSV/view?usp=sharing)
